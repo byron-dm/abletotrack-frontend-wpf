@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using AbleToTrack.Events;
+using AbleToTrack.Events.Dialogs;
 using AbleToTrack.ViewModels;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -15,9 +15,7 @@ public partial class ForgotPasswordView
 
     private void OnForgotPasswordRequested()
     {
-        TextBoxEmail.Text = "";
         TextBoxEmail.Focus();
-        TextBlockErrorMessage.Text = "";
         Show();
     }
 

@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
-using System.Windows;
+using AbleToTrack.Events.Dialogs;
 using AbleToTrack.Resources;
 using AbleToTrack.Services.Definitions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace AbleToTrack.ViewModels;
 
@@ -21,6 +22,7 @@ public partial class ForgotPasswordViewModel : ObservableObject
     public ForgotPasswordViewModel(ILoginService loginService)
     {
         _loginService = loginService;
+        WeakReferenceMessenger.Default.Register<ForgotPasswordRequested>(this, (_, _) => OnForgotPasswordRequested());
     }
 
     public bool CanSendEmail => !string.IsNullOrWhiteSpace(Email);
@@ -29,16 +31,31 @@ public partial class ForgotPasswordViewModel : ObservableObject
     private async Task SendMailAsync()
     {
         ErrorMessage = "";
-
+        
         var response = await Task.Run(() => _loginService.RecoverPassword(Email));
-        if (response.EmailSent)
+        string message;
+        
+        if (response.Exception == null)
         {
-            MessageBox.Show(response.Message, AppResources.ResourceManager.GetString("ForgotPassword.TextBlock.Title"),
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            message = response.Message;
+            if (response.EmailSent)
+            {
+                WeakReferenceMessenger.Default.Send(new AlertRequested(message,
+                    AppResources.ResourceManager.GetString("ForgotPassword.TextBlock.Title")));
+                WeakReferenceMessenger.Default.Send(new CloseCurrentWindowRequested());
+            }
         }
         else
         {
-            ErrorMessage = response.Message;
+            message = response.Exception.Message;
         }
+
+        ErrorMessage = message;
+    }
+    
+    private void OnForgotPasswordRequested()
+    {
+        Email = "";
+        ErrorMessage = "";
     }
 }

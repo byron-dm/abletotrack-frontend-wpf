@@ -1,3 +1,5 @@
-﻿namespace AbleToTrack.Model.Dtos.Responses;
+﻿using System;
 
-public record RecoverPasswordResponseDto(bool EmailSent, string Message);
+namespace AbleToTrack.Model.Dtos.Responses;
+
+public record RecoverPasswordResponseDto(bool EmailSent = false, string Message = "", Exception? Exception = null);

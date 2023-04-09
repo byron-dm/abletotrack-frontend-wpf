@@ -1,9 +1,10 @@
 ﻿using System.Windows;
+using AbleToTrack.Events.Dialogs;
 using AbleToTrack.Services.Definitions;
 using AbleToTrack.Services.Implementations;
-using AbleToTrack.Services.Rest;
 using AbleToTrack.ViewModels;
 using AbleToTrack.Views;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -29,13 +30,15 @@ namespace AbleToTrack
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureLogging(logging => logging.AddConsole().AddDebug())
-                .ConfigureServices((hostContext, services) =>
+                .ConfigureServices((_, services) =>
                 {
                     CreateViews(services);
 
-                    services.AddSingleton<UserManager>();
+                    services.AddSingleton<IUserManager, UserManager>();
                     services.AddSingleton<ILoginService, LoginService>();
                 }).Build();
+            
+            WeakReferenceMessenger.Default.Register<CloseCurrentWindowRequested>(this, (_, _) => OnCloseCurrentWindowRequested());
         }
 
         protected override async void OnStartup(StartupEventArgs e)
@@ -69,6 +72,11 @@ namespace AbleToTrack
             AppHost!.Services.GetRequiredService<AlertView>();
             AppHost.Services.GetRequiredService<ForgotPasswordView>().DataContext =
                 new ForgotPasswordViewModel(AppHost.Services.GetRequiredService<ILoginService>());
+        }
+
+        private void OnCloseCurrentWindowRequested()
+        {
+            Current.Windows[1]?.Hide();
         }
     }
 }

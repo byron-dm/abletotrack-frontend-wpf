@@ -141,15 +141,6 @@ namespace AbleToTrack.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail is not verified!.
-        /// </summary>
-        public static string Login_MessageBox_Title_EmailNotVerified {
-            get {
-                return ResourceManager.GetString("Login.MessageBox.Title.EmailNotVerified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Login error.
         /// </summary>
         public static string Login_MessageBox_Title_LoginError {

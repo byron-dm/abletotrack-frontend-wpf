@@ -38,7 +38,7 @@ namespace AbleToTrack.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AbleToTrack.Resources.AppResources.es", typeof(AppResources_es).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AbleToTrack.Resources.i18n.AppResources.es", typeof(AppResources_es).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -137,15 +137,6 @@ namespace AbleToTrack.Resources {
         public static string Login_Hyperlink_ForgotPassword {
             get {
                 return ResourceManager.GetString("Login.Hyperlink.ForgotPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ¡Su correo no está verificado!.
-        /// </summary>
-        public static string Login_MessageBox_Title_EmailNotVerified {
-            get {
-                return ResourceManager.GetString("Login.MessageBox.Title.EmailNotVerified", resourceCulture);
             }
         }
         

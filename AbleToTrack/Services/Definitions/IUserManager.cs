@@ -1,11 +1,11 @@
-﻿using System.Security;
+﻿using AbleToTrack.Model.Dtos.Requests;
 using AbleToTrack.Model.Dtos.Responses;
 
 namespace AbleToTrack.Services.Definitions;
 
-public interface ILoginService
+public interface IUserManager
 {
-    LoginResponseDto Login(string email, SecureString password, bool shouldRememberMe);
+    LoginResponseDto Login(LoginRequestDto loginRequest);
 
     RecoverPasswordResponseDto RecoverPassword(string email);
 }

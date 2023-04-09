@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace AbleToTrack.Services.Rest;
+namespace AbleToTrack.Services.Implementations;
 
 public abstract class RequestManager
 {

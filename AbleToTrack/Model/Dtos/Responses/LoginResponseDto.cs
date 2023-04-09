@@ -1,3 +1,6 @@
-﻿namespace AbleToTrack.Model.Dtos.Responses;
+﻿using System;
 
-public record LoginResponseDto(bool Exists, string FirstName, string LastName, bool IsEmailVerified);
+namespace AbleToTrack.Model.Dtos.Responses;
+
+public record LoginResponseDto(bool Exists = false, string FirstName = "", string LastName = "",
+    bool IsEmailVerified = false, Exception? Exception = null);

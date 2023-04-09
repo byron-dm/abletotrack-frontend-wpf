@@ -54,9 +54,6 @@
     <data name="Login.MessageBox.Title.LoginError" xml:space="preserve">
         <value>Error al iniciar sesión</value>
     </data>
-    <data name="Login.MessageBox.Title.EmailNotVerified" xml:space="preserve">
-        <value>¡Su correo no está verificado!</value>
-    </data>
     <data name="Login.Error.EmailNotVerified" xml:space="preserve">
         <value>Por favor, verifique su dirección de correo, o no podrá iniciar sesión</value>
     </data>

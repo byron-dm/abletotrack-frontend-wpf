@@ -1,12 +1,12 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
-using System.Windows;
 using AbleToTrack.Model.Dtos.Requests;
 using AbleToTrack.Model.Dtos.Responses;
+using AbleToTrack.Services.Definitions;
 
-namespace AbleToTrack.Services.Rest;
+namespace AbleToTrack.Services.Implementations;
 
-public class UserManager : RequestManager
+public class UserManager : RequestManager, IUserManager
 {
     public LoginResponseDto Login(LoginRequestDto loginRequest)
     {

@@ -54,9 +54,6 @@
     <data name="Login.MessageBox.Title.LoginError" xml:space="preserve">
         <value>Login error</value>
     </data>
-    <data name="Login.MessageBox.Title.EmailNotVerified" xml:space="preserve">
-        <value>E-mail is not verified!</value>
-    </data>
     <data name="Login.Error.EmailNotVerified" xml:space="preserve">
         <value>Please, verify your email address, or you will not be able to sign to AbleToTrack</value>
     </data>
