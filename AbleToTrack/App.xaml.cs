@@ -20,7 +20,6 @@ namespace AbleToTrack
 
         public App()
         {
-            /*<a href="https://www.flaticon.com/free-icons/stopwatch" title="stopwatch icons">Stopwatch icons created by Freepik - Flaticon</a>*/
             /*AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
                 var loggerFactory = host.Services.GetService<ILoggerFactory>();
@@ -65,6 +64,7 @@ namespace AbleToTrack
             services.AddSingleton<AlertView>();
             services.AddSingleton<ForgotPasswordView>();
             services.AddSingleton<LoginView>();
+            services.AddSingleton<MainView>();
         }
 
         private void RequireViews()
@@ -72,6 +72,8 @@ namespace AbleToTrack
             AppHost!.Services.GetRequiredService<AlertView>();
             AppHost.Services.GetRequiredService<ForgotPasswordView>().DataContext =
                 new ForgotPasswordViewModel(AppHost.Services.GetRequiredService<ILoginService>());
+            AppHost.Services.GetRequiredService<MainView>().DataContext =
+                new MainViewModel();
         }
 
         private void OnCloseCurrentWindowRequested()

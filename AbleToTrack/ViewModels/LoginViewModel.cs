@@ -1,6 +1,5 @@
 ﻿using System.Security;
 using System.Threading.Tasks;
-using System.Windows;
 using AbleToTrack.Events.Dialogs;
 using AbleToTrack.Resources;
 using AbleToTrack.Services.Definitions;
@@ -49,7 +48,9 @@ public partial class LoginViewModel : ObservableObject
             {
                 if (loginResponse.IsEmailVerified)
                 {
-                    Application.Current.Shutdown(0);
+                    var user = await Task.Run(() => _loginService.GetUser(loginResponse.UserId));
+
+                    WeakReferenceMessenger.Default.Send(new MainWindowRequested(user));
                 }
                 else
                 {

@@ -21,6 +21,10 @@
       <None Remove="abletotrack.db" />
       <None Remove="Images\abletotrack.svg" />
       <None Remove="Images\abletotrack.png" />
+      <None Remove="Resources\Images\user-picture.png" />
+      <Resource Include="Resources\Images\user-picture.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
     </ItemGroup>
 
     <ItemGroup>

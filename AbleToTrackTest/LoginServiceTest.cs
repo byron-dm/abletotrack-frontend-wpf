@@ -19,8 +19,7 @@ public class LoginServiceTest
         var response = loginService.Login("", new SecureString(), false);
         
         Assert.False(response.Exists);
-        Assert.Empty(response.FirstName);
-        Assert.Empty(response.LastName);
+        Assert.Equal(0, response.UserId);
         Assert.False(response.IsEmailVerified);
         Assert.NotNull(response.Exception);
     }

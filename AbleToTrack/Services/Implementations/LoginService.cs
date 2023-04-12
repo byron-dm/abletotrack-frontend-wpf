@@ -16,6 +16,11 @@ public class LoginService : ILoginService
         _userManager = userManager;
     }
 
+    public UserResponseDto GetUser(long userId)
+    {
+        return _userManager.GetUser(userId);
+    }
+
     public LoginResponseDto Login(string email, SecureString password, bool shouldRememberMe)
     {
         var decodedPassword = new NetworkCredential(string.Empty, password).Password;
