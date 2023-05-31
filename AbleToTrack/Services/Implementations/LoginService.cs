@@ -1,49 +1,47 @@
 ﻿using System.Net;
-using System.Net.Http;
 using System.Security;
+using AbleToTrack.Events.Login;
 using AbleToTrack.Model.Dtos.Requests;
-using AbleToTrack.Model.Dtos.Responses;
+using AbleToTrack.Model.Exceptions;
 using AbleToTrack.Services.Definitions;
+using AbleToTrack.Services.Definitions.Http;
+using CommunityToolkit.Mvvm.Messaging;
+using log4net;
 
 namespace AbleToTrack.Services.Implementations;
 
 public class LoginService : ILoginService
 {
-    private readonly IUserManager _userManager;
+    private static readonly ILog Logger =
+        LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType);
+    private readonly ILoginManager _loginManager;
 
-    public LoginService(IUserManager userManager)
+    public LoginService(ILoginManager loginManager)
     {
-        _userManager = userManager;
+        _loginManager = loginManager;
     }
-
-    public UserResponseDto GetUser(long userId)
-    {
-        return _userManager.GetUser(userId);
-    }
-
-    public LoginResponseDto Login(string email, SecureString password, bool shouldRememberMe)
+    
+    public void Login(string email, SecureString password, bool shouldRememberMe)
     {
         var decodedPassword = new NetworkCredential(string.Empty, password).Password;
+        Logger.Info(decodedPassword);
 
         try
         {
-            return _userManager.Login(new LoginRequestDto(email, decodedPassword, shouldRememberMe));
-        }
-        catch (HttpRequestException exception)
-        {
-            return new LoginResponseDto(Exception: exception);
-        }
-    }
+            var response = _loginManager.Login(new LoginRequestDto(email, decodedPassword, shouldRememberMe));
 
-    public RecoverPasswordResponseDto RecoverPassword(string email)
-    {
-        try
-        {
-            return _userManager.RecoverPassword(email);
+            WeakReferenceMessenger.Default.Send(new UserVerificationFinished(response.AccessToken, response.UserId, response.IsEmailVerified));
         }
-        catch (HttpRequestException exception)
+        catch (HttpResponseException exception)
         {
-            return new RecoverPasswordResponseDto(Exception: exception);
+            if (exception.HttpStatusCode == HttpStatusCode.Forbidden)
+            {
+                WeakReferenceMessenger.Default.Send(new BadCredentialsSent());
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.Send(new UnexpectedErrorReceived(exception.Message));
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using AbleToTrack.Events.Dialogs;
 using CommunityToolkit.Mvvm.Messaging;
@@ -33,7 +34,10 @@ public partial class MainView
 
     private void OnMainWindowRequested()
     {
-        Show();
-        Application.Current.Windows[0]?.Hide();
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            Show();
+            Application.Current.Windows[0]?.Hide();
+        }));
     }
 }

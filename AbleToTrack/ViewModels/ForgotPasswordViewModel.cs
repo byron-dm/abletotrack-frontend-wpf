@@ -17,11 +17,11 @@ public partial class ForgotPasswordViewModel : ObservableObject
 
     [ObservableProperty] private string _errorMessage = "";
 
-    private readonly ILoginService _loginService;
+    private readonly IUserService _userService;
 
-    public ForgotPasswordViewModel(ILoginService loginService)
+    public ForgotPasswordViewModel(IUserService userService)
     {
-        _loginService = loginService;
+        _userService = userService;
         WeakReferenceMessenger.Default.Register<ForgotPasswordRequested>(this, (_, _) => OnForgotPasswordRequested());
     }
 
@@ -32,7 +32,7 @@ public partial class ForgotPasswordViewModel : ObservableObject
     {
         ErrorMessage = "";
         
-        var response = await Task.Run(() => _loginService.RecoverPassword(Email));
+        var response = await Task.Run(() => _userService.RecoverPassword(Email));
         string message;
         
         if (response.Exception == null)

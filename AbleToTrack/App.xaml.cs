@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using AbleToTrack.Events.Dialogs;
 using AbleToTrack.Services.Definitions;
+using AbleToTrack.Services.Definitions.Http;
 using AbleToTrack.Services.Implementations;
+using AbleToTrack.Services.Implementations.Http;
 using AbleToTrack.ViewModels;
 using AbleToTrack.Views;
 using CommunityToolkit.Mvvm.Messaging;
@@ -33,8 +35,11 @@ namespace AbleToTrack
                 {
                     CreateViews(services);
 
+                    services.AddSingleton<ILoginManager, LoginManager>();
                     services.AddSingleton<IUserManager, UserManager>();
                     services.AddSingleton<ILoginService, LoginService>();
+                    services.AddSingleton<IUserService, UserService>();
+                    services.AddSingleton<RequestManager>();
                 }).Build();
             
             WeakReferenceMessenger.Default.Register<CloseCurrentWindowRequested>(this, (_, _) => OnCloseCurrentWindowRequested());
@@ -71,7 +76,7 @@ namespace AbleToTrack
         {
             AppHost!.Services.GetRequiredService<AlertView>();
             AppHost.Services.GetRequiredService<ForgotPasswordView>().DataContext =
-                new ForgotPasswordViewModel(AppHost.Services.GetRequiredService<ILoginService>());
+                new ForgotPasswordViewModel(AppHost.Services.GetRequiredService<IUserService>());
             AppHost.Services.GetRequiredService<MainView>().DataContext =
                 new MainViewModel();
         }
